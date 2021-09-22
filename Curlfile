@@ -1,2 +1,13 @@
-curl -X GET http://google.com
-curl 'http://1.1.1.1'
+curl -X GET "https://httpbin.org/get" -H "accept: application/json"
+curl -X DELETE "https://httpbin.org/delete" -H "accept: application/json"
+curl -X PATCH "https://httpbin.org/patch" -H "accept: application/json"
+curl -X POST "https://httpbin.org/post" -H "accept: application/json"
+curl -X PUT "https://httpbin.org/put" -H "accept: application/json"
+curl -X GET "https://httpbin.org/basic-auth/admin/admin" -H "accept: application/json"
+curl -X GET "https://httpbin.org/base64/SFRUUEJJTiBpcyBhd2Vzb21l" -H "accept: text/html"
+curl -X GET "https://httpbin.org/uuid" -H "accept: application/json"
+curl -X GET "https://httpbin.org/redirect-to?url=google.com&status_code=200" -H "accept: text/html"
+curl -X DELETE "https://httpbin.org/anything" -H "accept: application/json"
+curl -X GET "https://httpbin.org/anything" -H "accept: application/json"
+curl -X POST "https://httpbin.org/anything" -H "accept: application/json"
+curl -X PUT "https://httpbin.org/anything" -H "accept: application/json"
