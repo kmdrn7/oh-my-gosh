@@ -6,9 +6,13 @@ import (
 	"github.com/Masterminds/sprig"
 	"html/template"
 	"os"
-	"os/exec"
 	"strings"
 )
+
+type CurlResponse struct {
+	Command string `json:"command"`
+	Output string `json:"output"`
+}
 
 func main() {
 	Curlfile, err := os.ReadFile("Curlfile")
@@ -24,20 +28,13 @@ func main() {
 		Requests:     *requests,
 	}
 
+	resChan := make(chan RequestResult)
 	for _, curl := range curls {
-		cmd := exec.Command("sh", "-c", curl)
-		fmt.Println(cmd)
-		output, err := cmd.Output()
-		if err != nil {
-			fmt.Println("Error:", err)
-			return
-		} else {
-			templateData.Requests = append(templateData.Requests, RequestResult{
-				Command:      cmd.String(),
-				ResultHeader: "-",
-				ResultBody: string(output),
-			})
-		}
+		go Curl(curl, resChan)
+	}
+
+	for range curls {
+		templateData.Requests = append(templateData.Requests, <-resChan)
 	}
 
 	buf := &bytes.Buffer{}
